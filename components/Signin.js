@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator } from 'react-native';
+import { connect } from 'react-redux';
+import { saveUser } from '../redux/actions'
 
 
-export default class Signin extends Component {
+class Signin extends Component {
 
+  signIn (email, password) {
+    const {saveUser} = this.props;
+    const token = null; // sign in and get token
+    const user = null; // get user details
+
+    //if sign in is successful
+    saveUser({token, user});
+    this.props.navigation.navigate('Home');
+  }
 
   render() {  
     return (
@@ -20,7 +31,7 @@ export default class Signin extends Component {
         <Button
           color="#3740FE"
           title="Signin"
-          onPress={() => this.props.navigation.navigate('Home')}
+          onPress={() => this.signIn()}
         />   
 
         <Text 
@@ -67,3 +78,9 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff'
     }
   });
+
+const mapDispatchToProps = {saveUser};
+
+export default connect(null, mapDispatchToProps)(Signin);
+
+

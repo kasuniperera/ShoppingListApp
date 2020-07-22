@@ -7,8 +7,9 @@ import TodoList from './TodoList';
 import AddListModal from './AddListModal';
 import Fire from '../Fire';
 import { firestore } from 'firebase';
+import { connect } from 'react-redux';
 
-export default class App extends React.Component {
+class App extends React.Component {
 
   state = {
     addTodoVisible : false,
@@ -145,3 +146,9 @@ const styles = StyleSheet.create({
     marginTop: 8
   }
 });
+
+const mapStateToProps = (state) => ({
+  user: state.auth.user
+})
+
+export default connect(mapStateToProps)(App);
