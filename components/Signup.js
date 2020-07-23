@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator } from 'react-native';
 import firebase from '../firebase';
+import { connect } from 'react-redux';
+import { saveUser } from '../redux/actions'
 
 export default class Signup extends Component {
 
@@ -22,6 +24,10 @@ export default class Signup extends Component {
       }
     
       registerUser = () => {
+        const {saveUser} = this.props;
+        const token = null; // sign in and get token
+        const user = null; // get user details
+        
         if(this.state.email === '' && this.state.password === '') {
           Alert.alert('Enter details to signup!')
         } else {
