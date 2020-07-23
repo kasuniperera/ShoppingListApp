@@ -2,18 +2,49 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { saveUser } from '../redux/actions'
-
+import firebase from '../firebase';
 
 class Signin extends Component {
 
+  constructor() {
+    super();
+    this.state = { 
+      email: '', 
+      password: '',
+      isLoading: false
+    }
+  }
+  updateInputVal = (val, prop) => {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
+  }
   signIn (email, password) {
     const {saveUser} = this.props;
     const token = null; // sign in and get token
     const user = null; // get user details
 
     //if sign in is successful
-    saveUser({token, user});
-    this.props.navigation.navigate('Home');
+    firebase
+    .auth()
+    .signInWithEmailAndPassword(email,password)
+    .then((res) => {
+      console.log(res)
+      console.log('User logged-in successfully!')
+      this.setState({
+        isLoading: false,
+        email: '', 
+        password: ''
+      })
+      
+      saveUser({token, user});
+      console.log('vyyyyyyy');
+      this.props.navigation.navigate('Home');
+     // this.props.navigation.navigate('Dashboard')
+     
+    })
+    .catch(error => this.setState({ errorMessage: error.message }))
+
   }
 
   render() {  
@@ -22,16 +53,20 @@ class Signin extends Component {
          <TextInput
           style={styles.inputStyle}
           placeholder="Email"
-         
+          value={this.state.email}
+          onChangeText={(val) => this.updateInputVal(val, 'email')}
         />
         <TextInput
           style={styles.inputStyle}
           placeholder="Password"
-        />   
+          value={this.state.password}
+          onChangeText={(val) => this.updateInputVal(val, 'password')}
+          maxLength={15}
+          secureTextEntry={true}/>
         <Button
           color="#3740FE"
           title="Signin"
-          onPress={() => this.signIn()}
+          onPress={() => this.signIn(this.state.email,this.state.password)}
         />   
 
         <Text 

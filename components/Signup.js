@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator } from 'react-native';
-import Fire from '../Fire';
+import firebase from '../firebase';
 
 export default class Signup extends Component {
 
@@ -14,14 +14,7 @@ export default class Signup extends Component {
         }
       }
     
-      componentDidMount(){
-        firebase = new Fire((error,user) => {
-          if(error){
-            return alert("something went wrong");
-          }
-          this.setState({user});
-        });
-      }
+   
       updateInputVal = (val, prop) => {
         const state = this.state;
         state[prop] = val;
@@ -49,7 +42,8 @@ export default class Signup extends Component {
               email: '', 
               password: ''
             })
-            this.props.navigation.navigate('Login')
+            saveUser({token, user});
+            this.props.navigation.navigate('Home');
           })
           .catch(error => this.setState({ errorMessage: error.message }))      
         }
