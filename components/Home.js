@@ -5,8 +5,7 @@ import colors from '../Colors';
 import {AntDesign} from '@expo/vector-icons';
 import TodoList from './TodoList';
 import AddListModal from './AddListModal';
-import Fire from '../Fire';
-import { firestore } from 'firebase';
+import Fire from '../firebase';
 import { connect } from 'react-redux';
 
 class App extends React.Component {
